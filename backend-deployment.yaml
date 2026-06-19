@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: node:18
+        command: ["node", "-e"]
+        args:
+          - |
+            const http = require('http');
+            const server = http.createServer((req, res) => {
+              res.end("Backend Service Running");
+            });
+            server.listen(3000);
+        ports:
+        - containerPort: 3000
